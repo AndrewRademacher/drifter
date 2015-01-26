@@ -19,3 +19,7 @@ library
 
     build-depends:      base                >=4.7   && <4.8
                     ,   postgresql-simple   >=0.4   && <0.5
+                    ,   bytestring          >=0.10  && <0.11
+
+    exposed-modules:    Drifter.PostgreSQL
+                    ,   Drifter.Types

@@ -1,12 +1,15 @@
+{-# LANGUAGE TypeFamilies #-}
+
 module Drifter.Types where
 
 type Name        = String
-type Description = String
+type Description = Maybe String
 
 data Change a = Change Name Description (Method a)
 
-data Method a = Script FilePath
-              | Function a
+data family Method a
+
+data family DBConnection a
 
 class Drifter a where
-    migrate :: [Change a] -> IO (Either String ())
+    migrate :: DBConnection a -> [Change a] -> IO (Either String ())
