@@ -2,10 +2,16 @@
 
 module Drifter.Types where
 
-type Name        = String
-type Description = Maybe String
+import           Data.Text
 
-data Change a = Change Name Description (Method a)
+type Name        = Text
+type Description = Text
+
+data Change a = Change
+        { changeName        :: Name
+        , changeDescription :: Maybe Description
+        , changeMethod      :: Method a
+        }
 
 data family Method a
 
