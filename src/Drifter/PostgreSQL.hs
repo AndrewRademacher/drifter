@@ -70,10 +70,10 @@ BEGIN;
 CREATE SCHEMA IF NOT EXISTS drifter;
 
 CREATE TABLE IF NOT EXISTS drifter.changelog (
-    id              serial                      NOT NULL,
-    name            text                        NOT NULL,
+    id              serial      NOT NULL,
+    name            text        NOT NULL,
     description     text,
-    time            timestamp with time zone    NOT NULL,
+    time            timestamp   NOT NULL,
 
     PRIMARY KEY (id),
     UNIQUE (name)
