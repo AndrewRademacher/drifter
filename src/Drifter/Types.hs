@@ -8,9 +8,10 @@ type Name        = Text
 type Description = Text
 
 data Change a = Change
-        { changeName        :: Name
-        , changeDescription :: Maybe Description
-        , changeMethod      :: Method a
+        { changeName         :: Name
+        , changeDescription  :: Maybe Description
+        , changeDependencies :: [Name]
+        , changeMethod       :: Method a
         }
 
 data family Method a
