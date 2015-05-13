@@ -11,7 +11,6 @@ module Main
 import           Control.Applicative
 import           Data.IORef
 import           Data.List
-import           Data.Ord
 import           Data.Text             (Text)
 import qualified Data.Text             as T
 import           Test.Tasty
@@ -56,7 +55,7 @@ migrateTests = testGroup "migrate"
   [
     testCase "runs the given migrations" $ do
         runs <- newIORef []
-        migrate (DBConnection $ TestDBConn runs) exampleChanges
+        _ <- migrate (DBConnection $ TestDBConn runs) exampleChanges
         res <- readIORef runs
         res @?= [1,2,3]
   ]

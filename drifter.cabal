@@ -17,6 +17,10 @@ source-repository head
     type:     git
     location: git@github.com:AndrewRademacher/drifter.git
 
+flag lib-Werror
+  default: False
+  manual: True
+
 library
     hs-source-dirs:     src
     default-language:   Haskell2010
@@ -28,6 +32,11 @@ library
 
     exposed-modules:    Drifter.Graph
                     ,   Drifter.Types
+
+    if flag(lib-Werror)
+      ghc-options: -Werror
+
+    ghc-options: -Wall
 
 test-suite test
     type: exitcode-stdio-1.0
@@ -41,3 +50,8 @@ test-suite test
                     ,   tasty
                     ,   tasty-quickcheck
                     ,   tasty-hunit
+
+    if flag(lib-Werror)
+      ghc-options: -Werror
+
+    ghc-options: -Wall

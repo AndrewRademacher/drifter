@@ -6,7 +6,6 @@ import           Control.Applicative
 import           Data.Graph.Inductive (Edge, Gr, UEdge, mkGraph, topsort')
 import qualified Data.Map.Strict      as Map
 import           Data.Maybe
-import Debug.Trace
 
 import           Drifter.Types
 
