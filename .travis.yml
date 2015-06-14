@@ -1,0 +1,8 @@
+language: haskell
+ghc:
+  - 7.8
+  - 7.6
+install:
+  - cabal install --only-dependencies --enable-tests
+script:
+  - cabal configure --enable-tests -flib-Werror && cabal build && cabal test
