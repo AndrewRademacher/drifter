@@ -12,6 +12,8 @@ category:            Database
 build-type:          Simple
 cabal-version:       >=1.10
 homepage:            https://github.com/AndrewRademacher/drifter
+extra-source-files:
+  README.md
 
 source-repository head
     type:     git
