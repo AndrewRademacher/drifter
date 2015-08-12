@@ -17,6 +17,3 @@ data Change a = Change
 data family Method a
 
 data family DBConnection a
-
-class Drifter a where
-    migrate :: DBConnection a -> [Change a] -> IO (Either String ())

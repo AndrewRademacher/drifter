@@ -76,10 +76,9 @@ data instance Method TestDB = RunMigrationNumber Int deriving (Show, Eq)
 data instance DBConnection TestDB = DBConnection TestDBConn
 
 instance Drifter TestDB where
-    migrate (DBConnection (TestDBConn runs)) changes = do
-        let mns = map ((\(RunMigrationNumber mn) -> mn) . changeMethod) (resolveDependencyOrder changes)
-        modifyIORef' runs (++ mns)
-        return $ Right ()
+    migrateSingle (DBConnection (TestDBConn runs)) Change { changeMethod = RunMigrationNumber mn} = do
+      modifyIORef' runs (++ [mn])
+      return $ Right ()
 
 instance Arbitrary Text where
     arbitrary = T.pack <$> arbitrary
