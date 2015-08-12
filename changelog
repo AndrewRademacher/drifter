@@ -1,4 +1,4 @@
-# 0.1.1
+# 0.2
 * Drop direct support for postgresql. That can be found in the drifter-postgresql package.
 * Just export a single module, Drifter
 * Change Drifter typeclass method from migrate to migrateSingle
