@@ -4,13 +4,14 @@ module Drifter.Types where
 
 import           Data.Text
 
-type Name        = Text
+newtype ChangeName = ChangeName
+        { changeNameText :: Text } deriving (Show, Eq, Ord)
 type Description = Text
 
 data Change a = Change
-        { changeName         :: Name
+        { changeName         :: ChangeName
         , changeDescription  :: Maybe Description
-        , changeDependencies :: [Name]
+        , changeDependencies :: [ChangeName]
         , changeMethod       :: Method a
         }
 

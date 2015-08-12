@@ -1,8 +1,9 @@
-{-# LANGUAGE FlexibleInstances   #-}
-{-# LANGUAGE OverloadedStrings   #-}
-{-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE StandaloneDeriving  #-}
-{-# LANGUAGE TypeFamilies        #-}
+{-# LANGUAGE FlexibleInstances          #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE OverloadedStrings          #-}
+{-# LANGUAGE ScopedTypeVariables        #-}
+{-# LANGUAGE StandaloneDeriving         #-}
+{-# LANGUAGE TypeFamilies               #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 module Main
     ( main
@@ -17,8 +18,8 @@ import           Test.Tasty
 import           Test.Tasty.HUnit
 import           Test.Tasty.QuickCheck
 
-import           Drifter.Graph
-import           Drifter.Types
+import           Drifter
+
 
 main :: IO ()
 main = defaultMain tests
@@ -63,9 +64,12 @@ migrateTests = testGroup "migrate"
 exampleChanges :: [Change TestDB]
 exampleChanges = [c2, c3, c1]
   where
-    c1 = Change "c1" Nothing [] (RunMigrationNumber 1)
-    c2 = c1 { changeName = "c2", changeDependencies = ["c1"], changeMethod = RunMigrationNumber 2}
-    c3 = c1 { changeName = "c3", changeDependencies = ["c2"], changeMethod = RunMigrationNumber 3}
+    c1 = Change c1n Nothing [] (RunMigrationNumber 1)
+    c1n = ChangeName "c1"
+    c2n = ChangeName "c2"
+    c3n = ChangeName "c3"
+    c2 = c1 { changeName = c2n, changeDependencies = [c1n], changeMethod = RunMigrationNumber 2}
+    c3 = c1 { changeName = c3n, changeDependencies = [c2n], changeMethod = RunMigrationNumber 3}
 
 data TestDB
 
@@ -83,6 +87,8 @@ instance Drifter TestDB where
 instance Arbitrary Text where
     arbitrary = T.pack <$> arbitrary
 
+deriving instance Arbitrary ChangeName
+
 instance Arbitrary (Method TestDB) where
     arbitrary = RunMigrationNumber <$> arbitrary
 
@@ -99,12 +105,3 @@ instance Arbitrary UniqueChanges  where
     where
       uniqueNames cs = let names = map changeName cs
                        in nub names == names
-
-changeSequence :: [Change a] -> [Change a]
-changeSequence [] = []
-changeSequence (x:xs) = reverse $ snd $ foldl' go (x, []) xs
-  where
-    go :: (Change a, [Change a]) -> Change a -> (Change a, [Change a])
-    go (lastChange, xs') c =
-      let c' = c { changeDependencies = [changeName lastChange] }
-      in (c', c':xs')

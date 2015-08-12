@@ -15,6 +15,8 @@ import           Drifter.Types
 labUEdges :: [Edge] -> [UEdge]
 labUEdges = map (\(a, b) -> (a, b, ()))
 
+-- | Take an unordered list of changes and put them in dependency
+-- order. 'migrate' will do this automatically.
 resolveDependencyOrder :: [Change a] -> [Change a]
 resolveDependencyOrder cs = topsort' $ graphDependencies cs
 
