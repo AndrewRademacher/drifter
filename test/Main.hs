@@ -81,7 +81,7 @@ data instance DBConnection TestDB = DBConnection TestDBConn
 
 instance Drifter TestDB where
     migrateSingle (DBConnection (TestDBConn runs)) Change { changeMethod = RunMigrationNumber mn} = do
-      modifyIORef' runs (++ [mn])
+      modifyIORef runs (++ [mn])
       return $ Right ()
 
 instance Arbitrary Text where
