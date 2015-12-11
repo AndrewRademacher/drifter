@@ -10,6 +10,7 @@ module Main
     ) where
 
 -------------------------------------------------------------------------------
+import           Control.Applicative   as A
 import           Data.IORef
 import           Data.List
 import           Data.Text             (Text)
@@ -38,8 +39,8 @@ changeSequenceTests :: TestTree
 changeSequenceTests = testGroup "changeSequence"
   [
     testProperty "preserves list members" $ \((Blind cs) :: Blind [Change TestDB]) ->
-      let cnames = fmap changeName cs
-          cnames' = changeName `fmap` changeSequence cs
+      let cnames = changeName <$> cs
+          cnames' = changeName <$> changeSequence cs
       in cnames === cnames'
   ]
 
@@ -115,7 +116,7 @@ deriving instance Show (Change TestDB)
 newtype UniqueChanges = UniqueChanges [Change TestDB] deriving (Show)
 
 instance Arbitrary UniqueChanges  where
-  arbitrary = UniqueChanges <$> arbitrary `suchThat` uniqueNames
+  arbitrary = UniqueChanges A.<$> arbitrary `suchThat` uniqueNames
     where
       uniqueNames cs = let names = map changeName cs
                        in nub names == names
