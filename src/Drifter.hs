@@ -14,10 +14,12 @@ module Drifter
     ) where
 
 
-import Data.List
-
-import Drifter.Graph
-import Drifter.Types
+-------------------------------------------------------------------------------
+import           Data.List
+-------------------------------------------------------------------------------
+import           Drifter.Graph
+import           Drifter.Types
+-------------------------------------------------------------------------------
 
 
 -- | This is a helper for the common case of where you just want
@@ -25,7 +27,7 @@ import Drifter.Types
 -- and set their dependencies to run in the given sequence.
 changeSequence :: [Change a] -> [Change a]
 changeSequence [] = []
-changeSequence (x:xs) = reverse $ snd $ foldl' go (x, []) xs
+changeSequence (x:xs) = reverse $ snd $ foldl' go (x, [x]) xs
   where
     go :: (Change a, [Change a]) -> Change a -> (Change a, [Change a])
     go (lastChange, xs') c =

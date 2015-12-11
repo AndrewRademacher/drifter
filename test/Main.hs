@@ -9,7 +9,7 @@ module Main
     ( main
     ) where
 
-import           Control.Applicative
+-------------------------------------------------------------------------------
 import           Data.IORef
 import           Data.List
 import           Data.Text             (Text)
@@ -17,8 +17,9 @@ import qualified Data.Text             as T
 import           Test.Tasty
 import           Test.Tasty.HUnit
 import           Test.Tasty.QuickCheck
-
+-------------------------------------------------------------------------------
 import           Drifter
+-------------------------------------------------------------------------------
 
 
 main :: IO ()
@@ -29,8 +30,21 @@ tests = testGroup "drifter"
     [
       graphTests
     , typesTests
+    , changeSequenceTests
     ]
 
+-------------------------------------------------------------------------------
+changeSequenceTests :: TestTree
+changeSequenceTests = testGroup "changeSequence"
+  [
+    testProperty "preserves list members" $ \((Blind cs) :: Blind [Change TestDB]) ->
+      let cnames = fmap changeName cs
+          cnames' = changeName `fmap` changeSequence cs
+      in cnames === cnames'
+  ]
+
+
+-------------------------------------------------------------------------------
 graphTests :: TestTree
 graphTests = testGroup "Drifter.Graph"
     [

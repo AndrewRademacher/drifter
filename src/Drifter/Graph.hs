@@ -4,13 +4,16 @@ module Drifter.Graph
     , migrate
     ) where
 
-import           Control.Applicative
+-------------------------------------------------------------------------------
+import           Control.Applicative  as A
 import           Control.Monad
 import           Data.Graph.Inductive (Edge, Gr, UEdge, mkGraph, topsort')
 import qualified Data.Map.Strict      as Map
 import           Data.Maybe
-
+-------------------------------------------------------------------------------
 import           Drifter.Types
+-------------------------------------------------------------------------------
+
 
 labUEdges :: [Edge] -> [UEdge]
 labUEdges = map (\(a, b) -> (a, b, ()))
@@ -53,7 +56,7 @@ instance Monad m => Functor (EitherT e m) where
   fmap f = EitherT . liftM (fmap f) . runEitherT
   {-# INLINE fmap #-}
 
-instance Monad m => Applicative (EitherT e m) where
+instance Monad m => A.Applicative (EitherT e m) where
   pure a  = EitherT $ return (Right a)
   {-# INLINE pure #-}
   EitherT f <*> EitherT v = EitherT $ f >>= \mf -> case mf of
