@@ -2,7 +2,10 @@ name:                drifter
 version:             0.2.1
 synopsis:            Simple schema management for arbitrary databases.
 description:         Simple support for migrating database schemas, which allows
-                     haskell functions to be run as a part of the migration.
+                     haskell functions to be run as a part of the migration. Note
+                     that this library isn't meant to be used directly, but rather
+                     as a base library for a specific driver. For an example of a
+                     functioning driver, you shold check out <https://hackage.haskell.org/package/drifter-postgresql drifter-postgresql>.
 license:             MIT
 license-file:        LICENSE
 author:              AndrewRademacher
