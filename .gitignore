@@ -1,8 +1,7 @@
 cabal.sandbox.config
 .cabal-sandbox/
+.stack-work/
 dist/
-
 *.hi
 *.o
-
 *.swp
