@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 module Drifter.Graph
     ( resolveDependencyOrder
     , Drifter(..)
@@ -75,5 +76,8 @@ instance Monad m => Monad (EitherT e m) where
       Left  l -> return (Left l)
       Right r -> runEitherT (k r)
   {-# INLINE (>>=) #-}
+
+#if __GLASGOW_HASKELL__ < 800
   fail = EitherT . fail
   {-# INLINE fail #-}
+#endif
