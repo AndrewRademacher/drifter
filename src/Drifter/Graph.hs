@@ -7,6 +7,7 @@ module Drifter.Graph
 -------------------------------------------------------------------------------
 import           Control.Applicative  as A
 import           Control.Monad
+import           Control.Monad.Fail   as Fail
 import           Data.Graph.Inductive (Edge, Gr, UEdge, mkGraph, topsort')
 import qualified Data.Map.Strict      as Map
 import           Data.Maybe
@@ -75,5 +76,7 @@ instance Monad m => Monad (EitherT e m) where
       Left  l -> return (Left l)
       Right r -> runEitherT (k r)
   {-# INLINE (>>=) #-}
-  fail = EitherT . fail
+
+instance MonadFail m => MonadFail (EitherT e m) where
+  fail = EitherT . Fail.fail
   {-# INLINE fail #-}
